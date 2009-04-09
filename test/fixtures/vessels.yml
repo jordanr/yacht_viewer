@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  year: 1
+  service: MyString
+  location: MyString
+  length: 9.99
+  uscg_id: 1
+
+two:
+  name: MyString
+  year: 1
+  service: MyString
+  location: MyString
+  length: 9.99
+  uscg_id: 1

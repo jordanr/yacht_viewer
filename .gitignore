@@ -1,2 +1,5 @@
+config/database.yml
+config/environment.rb
 tmp
 log
+vendor
