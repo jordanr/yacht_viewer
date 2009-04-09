@@ -1,0 +1,10 @@
+<html><head><title>Vessel Search</title>
+  <%= GMap.header %>
+  <%= @map.to_html %>
+</head><body>
+<div style="width: 1100px; margin: auto; text-align: center"
+<div style="text-align: left">
+<form method="get" action=<%=search_path%> style="display: inline"><input id='query' type="text" name="query" size="30"><%= submit_tag 'Search' %></form></div>
+<%= @map.div(:width => 1100, :height => 450) %>
+</div></body></html>
+
