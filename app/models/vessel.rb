@@ -1,18 +1,20 @@
+require 'will_paginate'
 class Vessel < ActiveRecord::Base
+  cattr_reader :per_page
+  @@per_page = 5
 
-  def description
-    "#{name}"
-  end
 
-  def long_description
-    "<div style='text-align: left'>
-<b>#{name}</b><br/>
-Length: #{length}<br/> 
-Year: #{year}<br/> 
-Service: #{service}<br/> 
-USCG ID: #{uscg_id}<br/> 
-Date: #{updated_at}
-</div>
-"
+  # geocode address - populat if needed
+  def latlon
+    if latitude.nil? or longitude.nil?
+      results = Geocoding::get(location, :key=>Ym4r::GmPlugin::ApiKey.get)
+      if results.status == Geocoding::GEO_SUCCESS
+        coord = results.first # assume the first is alright
+        update_attributes(:address=>coord.address, :latitude=>coord.latitude, :longitude=>coord.longitude)
+      else
+	puts "Geocode failure: #{results.status}"
+      end
+    end        
+    return [latitude, longitude]  # possibly [nil, nil]
   end
 end

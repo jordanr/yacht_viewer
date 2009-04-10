@@ -1,31 +1,37 @@
 require 'vessel'
 require 'uri'
 require 'net/http'
-#require 'regexp'
 
 # Yacht Bot
 #
 # Hello, my name is Yacht Bot.  I like to
 # crawl the U.S. Coast Guard's Documenation Search.
 # I scrape vessel data from http://www.st.nmfs.noaa.gov/st1/CoastGuard/VesselByName.html
+# and http://www.st.nmfs.noaa.gov/st1/CoastGuard/VesselByID.html
 class YachtBot
 
+  ####################
+  # Constants
+  ####################
+
   # the site and input search key
-  USCG_DB = "http://www.st.nmfs.noaa.gov/pls/webpls/cgv_pkg.vessel_name_list"
-  SEARCH_KEY = :vessel_name_in
+  NAME_DB = "http://www.st.nmfs.noaa.gov/pls/webpls/cgv_pkg.vessel_name_list"
+  NAME_KEY = :vessel_name_in
+  ID_DB = "http://www.st.nmfs.noaa.gov/pls/webpls/cgv_pkg.vessel_id_list"
+  ID_KEY = :vessel_id_in
 
   # repeated regex; no less than signs
   NO_LT = '([^<]*)'
 
   # tells the number of results
-  RESULTS_NEEDLE = Regexp.escape('You asked for a vessel with a name like "') + '[^"]*' +
+  NAME_RESULTS_NEEDLE = Regexp.escape('You asked for a vessel with a name like "') + '[^"]*' +
 		Regexp.escape('". That selection resulted in') + '[^0-9]*([0-9,]+)[^0-9]*' + Regexp.escape('matches.')
 
   # tells if there was an error, i.e too many or 0 results
-  ERROR_NEEDLE = 'Please re-do your selection criteria and try again.'
+  NAME_ERROR_NEEDLE = 'Please re-do your selection criteria and try again.'
 
   # what to look for and how to scrape
-  DATA_NEEDLE = Regexp.escape('<TR>
+  NAME_DATA_NEEDLE = Regexp.escape('<TR>
 <TD ALIGN="RIGHT">') + '[^<]*' + Regexp.escape('</TD>
 <TD><A HREF="/pls/webpls/cgv_pkg.vessel_id_list?vessel_id_in=') + '[0-9]+' + Regexp.escape('">') + NO_LT + Regexp.escape('</A></TD>
 <TD>') + NO_LT + Regexp.escape('</TD>
@@ -34,6 +40,102 @@ class YachtBot
 <TD ALIGN="CENTER">') + NO_LT + Regexp.escape('</TD>
 <TD ALIGN="RIGHT">') + NO_LT + Regexp.escape('</TD>
 </TR>')
+
+
+  ID_DATA_NEEDLE = Regexp.escape('<TABLE  rules="all" border="1" class="results" width="100%">
+
+<CAPTION><b>Data found in current database.</b></CAPTION>
+<TR>
+<TD ALIGN="RIGHT" width="24%">Vessel Name:</TD>
+<TD width="24%"><B>') + NO_LT + Regexp.escape('</B></TD>
+<TD ROWSPAN="11" class="gray" width="1%">&nbsp</TD>
+<TD ALIGN="RIGHT" width="24%">USCG Doc. No.:</TD>
+<TD width="24%"><B>') + NO_LT + Regexp.escape('</B></TD>
+</TR>
+<TR>
+<TD ALIGN="RIGHT">Vessel Service:</TD>
+<TD>') + NO_LT + Regexp.escape('</TD>
+
+<TD ALIGN="RIGHT">IMO Number:</TD>
+<TD>') + NO_LT + Regexp.escape('</TD>
+</TR>
+<TR>
+<TD ALIGN="RIGHT">Trade Indicator:</TD>
+<TD>') + NO_LT + Regexp.escape('</TD>
+<TD ALIGN="RIGHT">Call Sign:</TD>
+<TD>') + NO_LT + Regexp.escape('</TD>
+</TR>
+<TR>
+<TD ALIGN="RIGHT">Hull Material:</TD>
+
+<TD>') + NO_LT + Regexp.escape('</TD>
+<TD ALIGN="RIGHT">Hull Number:</TD>
+<TD>') + NO_LT + Regexp.escape('</TD>
+</TR>
+<TR>
+<TD ALIGN="RIGHT">Ship Builder:</TD>
+<TD>') + NO_LT + Regexp.escape('</TD>
+<TD ALIGN="RIGHT">Year Built:</TD>
+<TD>') + NO_LT + Regexp.escape('</TD>
+</TR>
+
+<TR>
+<TD ALIGN="RIGHT"> </TD>
+<TD><br>
+</TD>
+<TD ALIGN="RIGHT">Length (ft.):</TD>
+<TD>') + NO_LT + Regexp.escape('</TD>
+</TR>
+<TR>
+<TD ALIGN="RIGHT">Hailing Port:</TD>
+<TD>') + NO_LT + Regexp.escape('</TD>
+<TD ALIGN="RIGHT">Hull Depth (ft.):</TD>
+
+<TD>') + NO_LT + Regexp.escape('</TD>
+</TR>
+<TR>
+<TD ALIGN="RIGHT" ROWSPAN="3">Owner:</TD>
+<TD ROWSPAN="3">') + NO_LT + Regexp.escape('<br>') + NO_LT + Regexp.escape('<br>') + NO_LT + Regexp.escape('</TD>
+<TD ALIGN="RIGHT">Hull Breadth (ft.):</TD>
+<TD>') + NO_LT + Regexp.escape('</TD>
+</TR>
+<TR>
+<TD ALIGN="RIGHT">Gross Tonnage:</TD>
+
+<TD>') + NO_LT + Regexp.escape('</TD>
+</TR>
+<TR>
+<TD ALIGN="RIGHT">Net Tonnage:</TD>
+<TD>') + NO_LT + Regexp.escape('</TD>
+</TR>
+<TR>
+<TD ALIGN="RIGHT">Documentation Issuance Date:</TD>
+<TD>') + NO_LT + Regexp.escape('</TD>
+<TD ALIGN="RIGHT">Documentation Expiration Date:</TD>
+<TD>') + NO_LT + Regexp.escape('</TD>
+
+</TR>
+<TR>
+</TR>
+<TR>
+<TD><B>Previous Vessel Names:</B></TD>
+<td>') + 
+NO_LT + 
+Regexp.escape('</td>
+<TD class="gray">&nbsp</TD>
+<TD><B>Previous Vessel Owners:</B></TD>
+<td>') +
+NO_LT +
+Regexp.escape('<br>') + NO_LT + 
+Regexp.escape('</td>
+</TR>
+
+</TABLE>')
+
+
+  ####################
+  # Main Interface
+  ####################
 
   # Now, I will start getting data.  This may take a long, long
   # time.  Hopefully, I'll get smarter and do it quicker someday.
@@ -54,7 +156,7 @@ class YachtBot
       puts
       puts "Searching for #{search_value}..."
       # get the html page
-      body = get(search_value)
+      body = get(NAME_DB, NAME_KEY, search_value)
 
       num_vessels = results(body)
       # if the search had too many results
@@ -90,31 +192,45 @@ class YachtBot
     puts
   end
 
+  def self.find(uscg_id)
+      body = get(ID_DB, ID_KEY, uscg_id)
+      puts body.inspect
+  end
+
+
+  ####################
+  # Public Helpers
+  ####################
+
   # Was the query successfule (not too many not zero results)?
   def self.error?(body)
-    /#{ERROR_NEEDLE}/.match(body)
+    /#{NAME_ERROR_NEEDLE}/.match(body)
   end
 
   # return the number of matching vessels
   def self.results(body)    
-    results = /#{RESULTS_NEEDLE}/.match(body)
+    results = /#{NAME_RESULTS_NEEDLE}/.match(body)
     return 0 unless results and results.size == 2
     results[1].gsub(",","").to_i
   end
 
   # scrape and return array of data quintuples
   def self.data(body)
-    body.scan(/#{DATA_NEEDLE}/x)
+    body.scan(/#{NAME_DATA_NEEDLE}/x)
   end
  
 
+  #################
+  # Private Helpers
+  ##################
+
   private
-    def self.get(search_value)
+    def self.get(db, search_key, search_value)
       # socket 
       first_time = true
       res = nil
       begin
-        res = Net::HTTP.post_form(URI.parse(USCG_DB), SEARCH_KEY => search_value) if first_time
+        res = Net::HTTP.post_form(URI.parse(db), search_key => search_value) if first_time
       rescue # socket error
         first_time = false
         sleep 1 # wait a second

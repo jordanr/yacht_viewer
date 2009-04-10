@@ -1,6 +1,7 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
+  id: 1
   name: MyString
   year: 1
   service: MyString
@@ -9,6 +10,7 @@ one:
   uscg_id: 1
 
 two:
+  id: 2
   name: MyString
   year: 1
   service: MyString

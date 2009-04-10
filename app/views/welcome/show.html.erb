@@ -1,0 +1,9 @@
+<html><head><title> @vessel.name </title></head><body>
+
+<% @vessel.attribute_names.each do |attr| -%>
+<p><b><%= attr.capitalize %>:</b> <%= @vessel.send(attr) %></p>
+<% end %>
+
+<%= link_to 'Back', :back %>
+</body>
+</html>

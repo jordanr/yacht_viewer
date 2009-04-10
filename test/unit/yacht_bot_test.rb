@@ -30,4 +30,10 @@ class YachtBotTest < ActiveSupport::TestCase
     assert_equal 0, YachtBot.results(body)
     assert YachtBot.data(body).empty?
   end
+
+  test "find id" do
+    body = fixture('find_id.html')
+    YachtBot.find(642731)
+  end
+
 end
