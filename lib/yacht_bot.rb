@@ -268,7 +268,7 @@ class YachtBot
 	:hull_number=>dinfo[7], :builder=>dinfo[8], :year=>dinfo[9], :length=>dinfo[10],
 	:location => dinfo[11], :hull_depth=>dinfo[12], :owner=>dinfo[13], :hull_breadth=>dinfo[14],
 	:gross_tonnage=> dinfo[15], :net_tonnage=>dinfo[16], :issuance_date=>dinfo[17], :expiration_date=>dinfo[18],
-	:previous_names=>dinfo[19], :previous_owners=>dinfo[20]
+	:previous_names=>dinfo[19], :previous_owners=>dinfo[20], :address=>nil, :latitude=>nil, :longitude=>nil
       }
       if Vessel.exists?(:uscg_id=>dinfo[1])
         dvessel = Vessel.find_by_uscg_id(dinfo[1])

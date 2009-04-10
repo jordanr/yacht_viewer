@@ -1,7 +1,7 @@
 namespace :uscg do
   desc "download vessel data from http://www.st.nmfs.noaa.gov/st1/CoastGuard/VesselByName.html"
   task(:crawl => :environment) do
-
+    vowels = ['a', 'e', 'i', 'o', 'u']
     # Check to see if it exists
     filename = "#{RAILS_ROOT}/tmp/memo.txt"
     
@@ -13,13 +13,13 @@ namespace :uscg do
       memo = 'a'
     end
 
-    YachtBot.crawl([memo])
+#    YachtBot.crawl([memo])
 
     file = File.new(filename, "w")
-    if memo == 'z'
+    if memo == 'u' or ! vowels.include?(memo)
       file.puts('a')
     else
-      file.puts(memo.next)
+      file.puts(vowels[vowels.index(memo) + 1])
     end
     file.close
   end

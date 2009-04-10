@@ -31,6 +31,7 @@ class WelcomeController < ApplicationController
 
   def show
     @vessel = Vessel.find(params[:id])
+    @vessel = YachtBot.find(@vessel.uscg_id) unless @vessel.builder
   end
 
 end
