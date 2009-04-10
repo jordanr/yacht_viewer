@@ -7,33 +7,35 @@ class YachtBotTest < ActiveSupport::TestCase
 
     assert ! YachtBot.error?(body)
     assert_equal 144, YachtBot.results(body)
-    assert YachtBot.data(body)
+    assert YachtBot.vessels(body)
   end
   test "invisible results" do
     body = fixture('invisible_results.html')
 
     assert ! YachtBot.error?(body)
     assert_equal 3, YachtBot.results(body)
-    assert YachtBot.data(body).empty?
+    assert YachtBot.vessels(body).empty?
   end
   test "too many results" do
     body = fixture('too_many_results.html')
 
     assert YachtBot.error?(body)
     assert_equal 203392, YachtBot.results(body)
-    assert YachtBot.data(body).empty?
+    assert YachtBot.vessels(body).empty?
   end
   test "no results" do
     body = fixture('no_results.html')
 
     assert YachtBot.error?(body)
     assert_equal 0, YachtBot.results(body)
-    assert YachtBot.data(body).empty?
+    assert YachtBot.vessels(body).empty?
   end
 
-  test "find id" do
-    body = fixture('find_id.html')
-    YachtBot.find(642731)
+  test "info" do
+    names = ["find_642731.html", "find_642732.html"]
+    names.each { |name|
+      body = fixture(name)
+      puts YachtBot.info(body).inspect
+    }
   end
-
 end

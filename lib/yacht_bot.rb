@@ -22,6 +22,7 @@ class YachtBot
 
   # repeated regex; no less than signs
   NO_LT = '([^<]*)'
+  BR_OR_NO_LT = '(.*)'
 
   # tells the number of results
   NAME_RESULTS_NEEDLE = Regexp.escape('You asked for a vessel with a name like "') + '[^"]*' +
@@ -43,7 +44,6 @@ class YachtBot
 
 
   ID_DATA_NEEDLE = Regexp.escape('<TABLE  rules="all" border="1" class="results" width="100%">
-
 <CAPTION><b>Data found in current database.</b></CAPTION>
 <TR>
 <TD ALIGN="RIGHT" width="24%">Vessel Name:</TD>
@@ -55,7 +55,6 @@ class YachtBot
 <TR>
 <TD ALIGN="RIGHT">Vessel Service:</TD>
 <TD>') + NO_LT + Regexp.escape('</TD>
-
 <TD ALIGN="RIGHT">IMO Number:</TD>
 <TD>') + NO_LT + Regexp.escape('</TD>
 </TR>
@@ -67,7 +66,6 @@ class YachtBot
 </TR>
 <TR>
 <TD ALIGN="RIGHT">Hull Material:</TD>
-
 <TD>') + NO_LT + Regexp.escape('</TD>
 <TD ALIGN="RIGHT">Hull Number:</TD>
 <TD>') + NO_LT + Regexp.escape('</TD>
@@ -78,7 +76,6 @@ class YachtBot
 <TD ALIGN="RIGHT">Year Built:</TD>
 <TD>') + NO_LT + Regexp.escape('</TD>
 </TR>
-
 <TR>
 <TD ALIGN="RIGHT"> </TD>
 <TD><br>
@@ -90,18 +87,16 @@ class YachtBot
 <TD ALIGN="RIGHT">Hailing Port:</TD>
 <TD>') + NO_LT + Regexp.escape('</TD>
 <TD ALIGN="RIGHT">Hull Depth (ft.):</TD>
-
 <TD>') + NO_LT + Regexp.escape('</TD>
 </TR>
 <TR>
 <TD ALIGN="RIGHT" ROWSPAN="3">Owner:</TD>
-<TD ROWSPAN="3">') + NO_LT + Regexp.escape('<br>') + NO_LT + Regexp.escape('<br>') + NO_LT + Regexp.escape('</TD>
+<TD ROWSPAN="3">') + BR_OR_NO_LT + Regexp.escape('</TD>
 <TD ALIGN="RIGHT">Hull Breadth (ft.):</TD>
 <TD>') + NO_LT + Regexp.escape('</TD>
 </TR>
 <TR>
 <TD ALIGN="RIGHT">Gross Tonnage:</TD>
-
 <TD>') + NO_LT + Regexp.escape('</TD>
 </TR>
 <TR>
@@ -113,23 +108,20 @@ class YachtBot
 <TD>') + NO_LT + Regexp.escape('</TD>
 <TD ALIGN="RIGHT">Documentation Expiration Date:</TD>
 <TD>') + NO_LT + Regexp.escape('</TD>
-
 </TR>
 <TR>
 </TR>
 <TR>
 <TD><B>Previous Vessel Names:</B></TD>
-<td>') + 
-NO_LT + 
-Regexp.escape('</td>
+<td>
+') + BR_OR_NO_LT + Regexp.escape('
+</td>
 <TD class="gray">&nbsp</TD>
 <TD><B>Previous Vessel Owners:</B></TD>
-<td>') +
-NO_LT +
-Regexp.escape('<br>') + NO_LT + 
-Regexp.escape('</td>
+<td>
+') + BR_OR_NO_LT + Regexp.escape('
+</td>
 </TR>
-
 </TABLE>')
 
 
@@ -150,7 +142,7 @@ Regexp.escape('</td>
     # values 
     queue.each do |search_value|
       # tmp values
-      vessels = []
+      dvessels = []
       this_created = 0
 
       puts
@@ -165,25 +157,25 @@ Regexp.escape('</td>
 
       elsif error?(body)
         # no results eh?
-#        invisibles += [search_value] unless data(body).empty?  # mistake?
+#        invisibles += [search_value] unless vessels(body).empty?  # mistake?
         
       else # log the results in the db
-        vessels = data(body)
+        dvessels = vessels(body)
         
         # not showing them all; we'll keep searching this branch
-        if vessels.size > 0 and num_vessels != vessels.size
+        if dvessels.size > 0 and num_vessels != dvessels.size
           ('a'..'z').each { |letter| queue.push(search_value + letter) }
         # it's showing them but we can't see them
         else
           # do a different type of scrape
         end        
  
-        this_created = create_unless_exists(vessels)
-        found += vessels.size
+        this_created = create_unless_exists(dvessels)
+        found += dvessels.size
         created += this_created
       end
 
-      puts "found #{vessels.size.to_s}; created #{this_created.to_s} vessels"
+      puts "found #{dvessels.size.to_s}; created #{this_created.to_s} vessels"
       puts
     end
 
@@ -194,13 +186,24 @@ Regexp.escape('</td>
 
   def self.find(uscg_id)
       body = get(ID_DB, ID_KEY, uscg_id)
-      puts body.inspect
+      dinfo = info(body)
+      if dinfo and dinfo.size == 1
+        create_or_update(dinfo.first)
+      else
+        puts "Error finding #{uscg_id}: #{dinfo.inspect}"
+	nil
+      end
   end
 
 
   ####################
   # Public Helpers
   ####################
+
+  def self.info(body)
+    data(body, ID_DATA_NEEDLE)
+  end
+
 
   # Was the query successfule (not too many not zero results)?
   def self.error?(body)
@@ -214,17 +217,20 @@ Regexp.escape('</td>
     results[1].gsub(",","").to_i
   end
 
-  # scrape and return array of data quintuples
-  def self.data(body)
-    body.scan(/#{NAME_DATA_NEEDLE}/x)
+  def self.vessels(body)
+    data(body, NAME_DATA_NEEDLE) 
   end
- 
 
   #################
   # Private Helpers
   ##################
 
   private
+    # scrape and return array of data tuples
+    def self.data(body, needle)
+      body.scan(/#{needle}/xm)
+    end
+
     def self.get(db, search_key, search_value)
       # socket 
       first_time = true
@@ -240,12 +246,12 @@ Regexp.escape('</td>
     end
  
     # Create unless the uscg doc id is already in the db
-    def self.create_unless_exists(vessels)
+    def self.create_unless_exists(dvessels)
       # how many new vessels in db
       created = 0 
 
       # db check
-      vessels.each do |v|
+      dvessels.each do |v|
         puts v.inspect 
         if not Vessel.exists?(:uscg_id => v[5])
           Vessel.create({:name=>v[0], :year=>v[1], :service=>v[2], :location=>v[3], :length=>v[4], :uscg_id=>v[5]}) 
@@ -255,5 +261,25 @@ Regexp.escape('</td>
 
       return created
     end
+
+    def self.create_or_update(dinfo)
+      ivessel = { :name => dinfo[0], :uscg_id=>dinfo[1], :service=>dinfo[2], :imo_number=>dinfo[3],
+	:trade_indicator => dinfo[4], :call_sign=>dinfo[5], :hull_material=>dinfo[6],
+	:hull_number=>dinfo[7], :builder=>dinfo[8], :year=>dinfo[9], :length=>dinfo[10],
+	:location => dinfo[11], :hull_depth=>dinfo[12], :owner=>dinfo[13], :hull_breadth=>dinfo[14],
+	:gross_tonnage=> dinfo[15], :net_tonnage=>dinfo[16], :issuance_date=>dinfo[17], :expiration_date=>dinfo[18],
+	:previous_names=>dinfo[19], :previous_owners=>dinfo[20]
+      }
+      if Vessel.exists?(:uscg_id=>dinfo[1])
+        dvessel = Vessel.find_by_uscg_id(dinfo[1])
+        dvessel.update_attributes(ivessel)
+	puts "updated"
+      else
+        dvessel = Vessel.create(ivessel)
+	puts "created"
+      end
+      dvessel
+    end
+ 
 end
 

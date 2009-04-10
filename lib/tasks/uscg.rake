@@ -23,4 +23,8 @@ namespace :uscg do
     end
     file.close
   end
+
+  task(:find => :environment) do
+    puts YachtBot.find(ENV['USCG_ID']).inspect
+  end
 end
