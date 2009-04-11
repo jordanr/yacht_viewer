@@ -1,7 +1,7 @@
 require 'will_paginate'
 class Vessel < ActiveRecord::Base
   cattr_reader :per_page
-  @@per_page = 5
+  @@per_page = 10
 
 
   # geocode address - populat if needed
@@ -13,8 +13,9 @@ class Vessel < ActiveRecord::Base
         update_attributes(:address=>coord.address, :latitude=>coord.latitude, :longitude=>coord.longitude)
       else
 	puts "Geocode failure: #{results.status}"
+	return nil
       end
-    end        
-    return [latitude, longitude]  # possibly [nil, nil]
+    end
+    [latitude, longitude] 
   end
 end

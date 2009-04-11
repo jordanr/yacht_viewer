@@ -1,8 +1,39 @@
-<html><head><title> @vessel.name </title></head><body>
+<html><head><title> <%= @vessel.name %> </title></head><body>
 
-<% @vessel.attribute_names.each do |attr| -%>
-<p><b><%= attr.capitalize %>:</b> <%= @vessel.send(attr) %></p>
-<% end %>
+<!-- TODO: Photos -->
+
+<ul>
+  <li>Name: <%=h @vessel.name %></li>
+  <li>Length: <%=h @vessel.length %></li>
+  <li>Builder: <%=h @vessel.builder %></li>
+  <li>Year: <%=h @vessel.year %></li>
+  <li>Location: <%=h @vessel.location %></li>
+  <li>Service: <%=h @vessel.service %></li>
+</ul>
+
+<p>
+<label class='spec_label'>Owner:</label><br/>
+<%= @vessel.owner %>
+</p>
+
+<table class="spec_table">
+<tr>
+  <td><label class='spec_label'>Material:</label><%=h @vessel.hull_material %></td>
+  <td><label class='spec_label'>Number:</label><%=h @vessel.hull_number %></td>
+</tr>
+<tr>
+  <td><label class='spec_label'>Breadth:</label><%=h @vessel.hull_breadth %></td>
+  <td><label class='spec_label'>Depth:</label><%=h @vessel.hull_depth %></td>
+</tr>
+<tr>
+  <td><label class='spec_label'>Net Tonnage:</label><%=h @vessel.net_tonnage %></td>
+  <td><label class='spec_label'>Gross Tonnage:</label><%=h @vessel.gross_tonnage %></td>
+</tr>
+<tr>
+  <td><label class='spec_label'>Previous Names:<br/></label><%= @vessel.previous_names %></td>
+  <td><label class='spec_label'>Previous Owners:<br/></label><%= @vessel.previous_owners %></td>
+</tr>
+</table>
 
 <%= link_to 'Back', :back %>
 </body>

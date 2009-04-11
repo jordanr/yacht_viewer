@@ -13,7 +13,7 @@ namespace :uscg do
       memo = 'a'
     end
 
-#    YachtBot.crawl([memo])
+    YachtBot.crawl([memo])
 
     file = File.new(filename, "w")
     if memo == 'u' or ! vowels.include?(memo)

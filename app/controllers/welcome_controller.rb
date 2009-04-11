@@ -3,9 +3,8 @@ class WelcomeController < ApplicationController
   def index
           @map = GMap.new("map_div")
           @map.set_map_type_init(GMapType::G_HYBRID_MAP)
-          @map.control_init(:map_type => true, :small_zoom => true)
-          @map.center_zoom_init([40,-90], 3)
 
+	  markers = []
           if params[:query] and params[:query] != ""
 	    
 	    tokens = params[:query].split(" ")
@@ -16,7 +15,11 @@ class WelcomeController < ApplicationController
 
 	    # mark each vessel location that's showing
 	    @vessels.reverse_each do |vessel|
-              @map.overlay_init(GMarker.new(vessel.latlon, :title => description(vessel), :info_window =>long_description(vessel)))
+	      latlon = vessel.latlon
+              if latlon
+  	        markers += [latlon]	  
+                @map.overlay_init(GMarker.new(latlon, :title => description(vessel), :info_window =>long_description(vessel)))
+	      end
             end
           else
             max = Vessel.count
@@ -24,9 +27,20 @@ class WelcomeController < ApplicationController
 	    Vessel.per_page.times { |i| ids += [rand(max) + 1] }
             @vessels = Vessel.paginate(ids, :page=>params[:page], :order => 'length DESC')
             @vessels.reverse_each do |vessel|
-              @map.overlay_init(GMarker.new(vessel.latlon, :title => description(vessel), :info_window =>long_description(vessel)))
+	      latlon = vessel.latlon
+              if latlon
+  	        markers += [latlon]
+                @map.overlay_init(GMarker.new(latlon, :title => description(vessel), :info_window =>long_description(vessel)))
+	      end
             end
-          end             
+          end  
+	  # just show the markers tightly
+	  if markers != []
+            @map.center_zoom_on_points_init(*markers) 
+	  else
+            @map.center_zoom_init([0,0], 2) 
+	  end
+	  @map.record_init('map.addControl(new TextualZoomControl()); map.addControl(new SearchControl());')
   end 
 
   def show

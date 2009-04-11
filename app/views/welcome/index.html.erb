@@ -1,44 +1,38 @@
-<html><head><title>Vessel Search</title>
+<html><head><title>Yacht Odyssey</title>
   <%= GMap.header %>
+  <%= javascript_include_tag "application.js" %>
+
   <%= @map.to_html %>
-</head><body>
-<div style="width: 1100px; margin: auto; text-align: center">
+</head><body style="margin: 0">
 
-<div style="text-align: left">
-<form method="get" action=<%=search_path%> style="display: inline"><input id='query' type="text" name="query" size="30"><%= submit_tag 'Search' %></form>
-</div>
+<%= @map.div(:width => "100%", :height => 450) %>
 
-<%= @map.div(:width => 1100, :height => 450) %>
-
-<div style="text-align: left">
+<div style="text-align: left; margin-left: 5px">
 <table>
   <tr>
     <th>Name</th>
     <th>Length</th>
+    <th>Builder</th>
     <th>Year</th>
     <th>Service</th>
     <th>Location</th>
     <th>USCG ID</th>
-    <th>Address</th>
-    <th>Latitude</th>
-    <th>Longitude</th>
   </tr>
 
 <% for listing in @vessels %>
   <tr>
     <td><%= link_to "<i>#{listing.name}</i>", vessel_path(listing) %></td>
     <td><%=h listing.length %></td>
+    <td><%=h listing.builder %></td>
     <td><%=h listing.year %></td>
     <td><%=h listing.service %></td>
     <td><%=h listing.location %></td>
     <td><%=h listing.uscg_id %></td>
-    <td><%=h listing.address %></td>
-    <td><%=h listing.latitude %></td>
-    <td><%=h listing.longitude %></td>
   </tr>
 <% end %>
 </table>
 </div>
 
 <%= will_paginate @vessels %>
-</div></body></html>
+
+</body></html>

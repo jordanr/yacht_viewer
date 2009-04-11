@@ -44,7 +44,7 @@ class YachtBot
 
 
   ID_DATA_NEEDLE = Regexp.escape('<TABLE  rules="all" border="1" class="results" width="100%">
-<CAPTION><b>Data found in current database.</b></CAPTION>
+<CAPTION><b>') + '.*' + Regexp.escape('</b></CAPTION>
 <TR>
 <TD ALIGN="RIGHT" width="24%">Vessel Name:</TD>
 <TD width="24%"><B>') + NO_LT + Regexp.escape('</B></TD>

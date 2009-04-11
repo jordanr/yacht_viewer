@@ -4,4 +4,9 @@ config/gmaps_api_key.yml
 tmp
 log
 vendor
-public/javascripts
+public/javascripts/clusterer.js
+public/javascripts/geoRssOverlay.js
+public/javascripts/markerGroup.js
+public/javascripts/wms-gs.js
+public/javascripts/ym4r-gm.js
+
