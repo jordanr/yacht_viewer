@@ -11,8 +11,11 @@ class VesselsController < ApplicationController
     vessel = @vessel
     latlon = vessel.latlon
     if latlon
-      @map.overlay_init(GMarker.new(latlon, :title => description(vessel), :info_window =>long_description(vessel)))
+      marker = GMarker.new(latlon, :title => description(vessel), :info_window =>long_description(vessel), :icon=>@icon)
+      @map.declare_init(marker, "vessel_marker")
+      @map.overlay_init(marker)
       @map.center_zoom_on_points_init(latlon)
+      @map.record_init("GEvent.trigger(vessel_marker,'click');")
     end
   end
 

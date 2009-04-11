@@ -1,5 +1,9 @@
 module ApplicationHelper
 
+  def application_name
+    "Captain Atlas"
+  end
+
   # no results page
   def help
     "<div class='main'>
@@ -41,14 +45,14 @@ Try:
   end
 
   def about_description
-    "Yacht Map HQ"
+    "#{application_name}"
   end
 
   def about_long_description
     "<div style='text-align: left'>
-<b>Yacht Map</b><br/>
-Email: richard@jordanyachts.com<br/>
-Phone: (954) 296-2687<br/>
+<b>#{application_name}</b><br/>
+Email: sales@jordanyachts.com<br/>
+Phone: (954) 522-8650<br/>
 Street: 629 NE 3rd Street<br/>
 City: Dania Beach<br/>
 State: Florida<br/>
@@ -87,6 +91,9 @@ Date: #{vessel.updated_at}
     @map.set_map_type_init(GMapType::G_HYBRID_MAP)
     @map.center_zoom_init([0,0], 2)
     @map.record_init('map.addControl(new TextualZoomControl()); map.addControl(new SearchControl());')
+
+    @icon = GIcon.new(:image=> "http://labs.google.com/ridefinder/images/mm_20_red.png", :shadow=> "http://labs.google.com/ridefinder/images/mm_20_shadow.png",
+                        :iconSize=> GSize.new(12, 20), :shadowSize=> GSize.new(22, 20), :iconAnchor => GPoint.new(6,20), :infoWindowAnchor => GPoint.new(5,1))
   end
 
   private

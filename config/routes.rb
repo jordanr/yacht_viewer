@@ -8,7 +8,6 @@ ActionController::Routing::Routes.draw do |map|
   #   map.purchase 'products/:id/purchase', :controller => 'catalog', :action => 'purchase'
   # This route can be invoked with purchase_url(:id => product.id)
   map.about 'about', :controller => 'welcome', :action => 'about'
-  map.advertising 'advertising', :controller => 'welcome', :action => 'advertising'
   map.random 'random', :controller => 'welcome', :action => 'random'
   map.search 'search', :controller => 'welcome', :action => 'search'
 
@@ -28,6 +27,7 @@ ActionController::Routing::Routes.draw do |map|
   #     admin.resources :products
   #   end
   map.resources :vessels
+  map.resources :advertisers
   
   # Install the default routes as the lowest priority.
   # Note: These default routes make all actions in every controller accessible via GET requests. You should

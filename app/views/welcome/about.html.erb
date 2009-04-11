@@ -1,1 +1,46 @@
-About Yacht Map
+<div class="about">
+
+<p>
+<%= application_name %> is a web-mashup of vessel and location data.  We serve:
+<ul>
+  <li>
+    Advertisers - <%= link_to 'Advertise', '' %> your brokerage, yacht repair, or other seafaring business.
+  <li>
+    Buyers - <%= link_to 'Search', search_path %> worldwide for power, sail, and commercial vessels.
+  </li>
+  <li>
+    Brokers - <%= link_to 'Claim', '' %> your listings and update their locations, information, and price.
+  </li>
+  <li>
+    Developers - <%= link_to 'Interact', '' %> with our database through the <%= application_name %> API.
+  </li>
+  <li>
+    Researchers - <%= link_to 'Mine', '' %> our database for useful and interesting statistics.
+  </li>
+  <li>
+    Sellers - <%= link_to 'Claim', '' %> your vessel and update its location and information.  Set your price.
+  </li>
+</ul>
+</p>
+
+<h3>Data Source</h3>
+<p>
+To gather the hundreds of thousands of vessels in our database, our Yacht Bot crawls the 
+<%= link_to 'NOAA Fisheries', 'http://www.st.nmfs.noaa.gov/index.html' %> web site. See:
+<ul>
+  <li> <%= link_to 'Search By Name', 'http://www.st.nmfs.noaa.gov/st1/CoastGuard/VesselByName.html' %> </li>
+  <li> <%= link_to 'Search By Id', 'http://www.st.nmfs.noaa.gov/st1/CoastGuard/VesselByID.html' %> </li>
+</ul>
+</p>
+
+<h3>Corporate</h3> 
+<p>
+We are a wholly owned subsidary of <%= link_to h("Jordan Yacht & Ship Co."), "http://jordanyachtandship.com/" %>, 
+a Ft. Lauderdale, Florida yacht brokerage.  Please contact us through <%= link_to "Jordan Yachts", "http://jordanyachtandship.com/contact_us/" %>.
+<br/>
+<br/>
+Sincerely,
+<br/>
+Richard Jordan <i>Vice-President</i>
+</p>
+</div>

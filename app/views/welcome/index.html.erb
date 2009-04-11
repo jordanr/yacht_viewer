@@ -1,11 +1,15 @@
-<div class='main'>
-  <%= image_tag 'logo.jpg', :alt=>'Captain Atlas' %>
+  <span class='logo'><%= image_tag 'logo.jpg', :alt=>'Captain Atlas' %></span>
+  <ul class='main_list'>
+  <li>
+    <span class='emphasis'>Search <%= number_with_delimiter(Vessel.count) %> total vessels</span>
+  </li>
+  <li>
   <%= link_to 'About', about_path %>
-<!--  <%= link_to 'Advertising', ''#advertising_path %>
-  <%= link_to 'Buyers', ''#buyers_path %>
-  <%= link_to 'Brokers', ''#brokers_path %>
-  <%= link_to 'Developers', '' #developers_path %>
-  <%= link_to 'Researchers', '' #researchers_path %>
-  <%= link_to 'Sellers', '' #sellers_path %>-->
-  <span class='emphasis'><%= number_with_delimiter(Vessel.count) %> vessels</span>
-</div>
+  <%= link_to 'Advertisers', advertisers_path %>
+  <%= link_to 'Buyers', ''%>
+  <%= link_to 'Brokers', '' %>
+  <%= link_to 'Developers', '' %>
+  <%= link_to 'Researchers', ''%>
+  <%= link_to 'Sellers', '' %>
+  </li>
+  </ul>
