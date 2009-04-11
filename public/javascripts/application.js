@@ -17,7 +17,7 @@ SearchControl.prototype.initialize = function(map) {
   // main form
   var searchForm = document.createElement("form");
   searchForm.method = "get";
-  searchForm.action = "";
+  searchForm.action = "/search";
   container.appendChild(searchForm);
 
   // input box
@@ -25,7 +25,9 @@ SearchControl.prototype.initialize = function(map) {
   inputQuery.type = "text";
   inputQuery.id = 'query';
   inputQuery.name= 'query';
+//  inputQuery.value = 'By name, location, length, year, ...';
   inputQuery.size= '40';
+//  GEvent.addDomListener(inputQuery, "focus", function(evt) { this.value = ''; });
   searchForm.appendChild(inputQuery);
 
   // submit button

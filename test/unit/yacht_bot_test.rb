@@ -35,7 +35,7 @@ class YachtBotTest < ActiveSupport::TestCase
     names = ["find_642731.html", "find_642732.html", "find_1095883.html"]
     names.each { |name|
       body = fixture(name)
-      puts YachtBot.info(body).inspect
+      assert YachtBot.info(body)
     }
   end
 end

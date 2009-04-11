@@ -252,7 +252,6 @@ class YachtBot
 
       # db check
       dvessels.each do |v|
-        puts v.inspect 
         if not Vessel.exists?(:uscg_id => v[5])
           Vessel.create({:name=>v[0], :year=>v[1], :service=>v[2], :location=>v[3], :length=>v[4], :uscg_id=>v[5]}) 
           created += 1 

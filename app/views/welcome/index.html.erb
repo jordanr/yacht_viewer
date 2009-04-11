@@ -1,38 +1,11 @@
-<html><head><title>Yacht Odyssey</title>
-  <%= GMap.header %>
-  <%= javascript_include_tag "application.js" %>
-
-  <%= @map.to_html %>
-</head><body style="margin: 0">
-
-<%= @map.div(:width => "100%", :height => 450) %>
-
-<div style="text-align: left; margin-left: 5px">
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Length</th>
-    <th>Builder</th>
-    <th>Year</th>
-    <th>Service</th>
-    <th>Location</th>
-    <th>USCG ID</th>
-  </tr>
-
-<% for listing in @vessels %>
-  <tr>
-    <td><%= link_to "<i>#{listing.name}</i>", vessel_path(listing) %></td>
-    <td><%=h listing.length %></td>
-    <td><%=h listing.builder %></td>
-    <td><%=h listing.year %></td>
-    <td><%=h listing.service %></td>
-    <td><%=h listing.location %></td>
-    <td><%=h listing.uscg_id %></td>
-  </tr>
-<% end %>
-</table>
+<div class='main'>
+  <%= image_tag 'logo.jpg', :alt=>'Captain Atlas' %>
+  <%= link_to 'About', about_path %>
+<!--  <%= link_to 'Advertising', ''#advertising_path %>
+  <%= link_to 'Buyers', ''#buyers_path %>
+  <%= link_to 'Brokers', ''#brokers_path %>
+  <%= link_to 'Developers', '' #developers_path %>
+  <%= link_to 'Researchers', '' #researchers_path %>
+  <%= link_to 'Sellers', '' #sellers_path %>-->
+  <span class='emphasis'><%= number_with_delimiter(Vessel.count) %> vessels</span>
 </div>
-
-<%= will_paginate @vessels %>
-
-</body></html>

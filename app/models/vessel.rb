@@ -3,6 +3,13 @@ class Vessel < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 10
 
+  def to_s
+    "#{name}: #{length} #{builder} #{year} #{owner_name}"
+  end
+
+  def owner_name
+    owner ? owner.split('<br>').first : ""
+  end
 
   # geocode address - populat if needed
   def latlon

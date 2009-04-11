@@ -2,7 +2,12 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
+  include ApplicationHelper
+
   helper :all # include all helpers, all the time
+
+  before_filter :pre_map
+#  prepend_after_filter :post_map
 
   # See ActionController::RequestForgeryProtection for details
   # Uncomment the :secret if you're not using the cookie session store

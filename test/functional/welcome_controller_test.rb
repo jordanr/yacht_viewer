@@ -4,24 +4,19 @@ class WelcomeControllerTest < ActionController::TestCase
   # Replace this with your real tests.
   test "index" do
     get :index
+    assert assigns(:map)
+  end
 
-    assert assigns(:vessels)
+  test "about" do
+    get :about
+
     assert assigns(:map)
   end
 
   test "search" do
-    get :index, :query=>"hi"
+    get :search, :query=>"hi"
 
     assert assigns(:vessels)
     assert assigns(:map)
   end
-
-  test "show" do
-    get :show, :id=>1
-    assert assigns(:vessel)
-#    assert assigns(:map)
-  end
-
-
-
 end
