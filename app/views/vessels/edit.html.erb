@@ -1,0 +1,33 @@
+<div class="about">
+<% form_for(@vessel) do |f| %>
+  <%= f.error_messages %>
+
+  <h3>Location (Drag the map marker and place it on top your vessel.</h3>
+  <p>
+    <%= f.label :latitude %><br />
+    <%= f.text_field :latitude %>
+  </p>
+  <p>
+    <%= f.label :longitude %><br />
+    <%= f.text_field :longitude %>
+  </p>
+
+  <h3>Specification</h3>
+  <p>
+    <%= f.label :make, 'Make' %><br />
+    <%= f.text_field :make %>
+  </td>
+  <p>
+    <%= f.label :maker, 'Model' %><br />
+    <%= f.text_field :model %>
+  </td>
+
+  <p class="button">
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @vessel %> |
+<%= link_to 'Back', :back %>
+
+</div>
