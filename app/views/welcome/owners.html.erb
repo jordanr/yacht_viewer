@@ -1,0 +1,40 @@
+<div class="about">
+
+<p>
+<%= application_name %> gather information about vessels from the United States Coast Guard documentation agency.
+If you have documented your vessel with the USCG (and probably you have), your vessel likely comes up in
+<%= application_name %> search results.  To check, input your vessels name in the <%= link_to 'search', search_path %>
+exactly as it appears in your documentation.
+</p>
+
+<h3>Claiming your vessel</h3>
+<p>
+Once you find your vessel, you can claim it, correct its location, and add more information about its make and model.  If someone has
+already claimed your vessel incorrectly, please report to us abuse or fraud.  Only the documented owner or a broker
+representing a vessel should claim a vessel.  
+</p>
+
+<p>
+Not all of your vessel's information is editable.  To maintain synchonise with
+the USCG's documentation, you cannot change any information provided by them.  Please correct your documentation instead and
+your information here will automatically update.
+</p>
+
+<h3>Selling</h3>
+<p>
+Once your claim your vessel, you are also allowed to put a price on it.  <%= link_to 'Buyers', buyers_path %> will find your vessel in
+search results and can contact you or your <%= link_to 'broker', brokers_path %>.
+</p>
+
+<h3>Not Found?</h3>
+<p>
+If you cannot find your vessel on <%= application_name %>, you can still <%= link_to 'advertise', advertisers_path %> it here.  Depending
+on its location and other advertisers, your boat probably will show up for free.
+</p>
+
+<h3>Get Started!</h3>
+<p>
+<%= link_to 'Search', search_path %> for your listings, claim it, and update its location and information.  Set a price to sell it.
+</p>
+
+</div>

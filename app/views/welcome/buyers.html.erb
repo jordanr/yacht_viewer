@@ -6,9 +6,9 @@ These vessels registered with the United States Coast Guard's <%= link_to 'docum
 </p>
 
 <p>
-Some vessel <%= link_to 'owners', '' %> have claimed their vessel on <%= application_name %>.
+Some vessel <%= link_to 'owners', owners_path %> have claimed their vessel on <%= application_name %>.
 These owners may have accurately updated their vessel's location and information.  Also, possibly
-they have set a sale price on their vessel, either through a broker or by themselves.
+they have set a sale price on their vessel, either through a <%= link_to 'broker', brokers_path %> or by themselves.
 </p>
 
 <h3>Disclaimer</h3>
@@ -29,3 +29,12 @@ behalf.
 <%= application_name %> does not function as a broker or seller nor are we involved in any communication 
 or transaction between buyer and seller.
 </p>
+
+<h3>Get Started!</h3>
+<p>
+In the upper left handcorner of our maps, you'll see a <%= link_to 'search', search_path %> box and button.  
+Enter any information there be it a location, manufacturer, length, name, year, or otherwise.  
+<%= application_name %> will try to find vessels matching your query.
+</p>
+
+</div>

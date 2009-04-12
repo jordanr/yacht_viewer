@@ -1,0 +1,36 @@
+<div class="about">
+
+<p>
+Vessels on <%= application_name %> are registered with United States Coast Guard's (USCG)
+<%= link_to 'documentation agency', 'http://www.st.nmfs.noaa.gov/st1/CoastGuard/VesselDataCaveats.html'%>.
+As a broker, it is likely that some of your listings show up in searches of <%= application_name %>.  If so, please
+edit your listings' locations, information, and prices.  Let buyers know to contact you (and not directly the 
+<%= link_to 'owner', owners_path %>) by adding your contact details.  Editing vessel information is free.
+</p>
+<p>
+Also, you may wish to <%= link_to 'advertise', advertisers_path %> listings here.  If a listing is
+not registered with the USCG, a foreign vessel, you can still show the listing on <%= application_name %> by 
+creating an advertisment.
+</p>
+<p>
+You can also put your brokerage on the map by creating an advertisment for your business.  Depending on your location,
+your advertisement may show up for free.
+</p>
+
+<h3>Limitations</h3>
+<p>
+Not all the information is freely editable.  To insure accuracy, <%= application_name %> does not allow users to
+edit the information provided by the USCG.  Please correct the vessel's documentation with the USCG and the vessel
+will automatically update itself here.
+</p>
+
+<h3>Get Started!</h3>
+<p>
+<%= link_to 'Search', search_path %> for your listings.  When you find one, click on its map marker and you'll see options to
+edit or claim the vessel.  If your client, the owner, has already claimed it, you can ask them to either update its
+information or release their vessel so you can claim it.  If someone else has claimed the vessel, please report to
+us any abuse or fraud.
+</p>
+
+
+</div>

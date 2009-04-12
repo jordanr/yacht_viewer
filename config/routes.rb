@@ -13,6 +13,7 @@ ActionController::Routing::Routes.draw do |map|
   map.advertisers 'advertisers', :controller => 'welcome', :action => 'advertisers'
   map.buyers 'buyers', :controller => 'welcome', :action => 'buyers'
   map.brokers 'brokers', :controller => 'welcome', :action => 'brokers'
+  map.developers 'developers', :controller => 'welcome', :action => 'developers'
   map.owners 'owners', :controller => 'welcome', :action => 'owners'
   map.researchers 'researchers', :controller => 'welcome', :action => 'researchers'
 
