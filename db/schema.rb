@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090410200915) do
+ActiveRecord::Schema.define(:version => 20090412190928) do
 
   create_table "vessels", :force => true do |t|
     t.string   "name"
@@ -38,6 +38,10 @@ ActiveRecord::Schema.define(:version => 20090410200915) do
     t.string   "expiration_date"
     t.string   "previous_names"
     t.string   "previous_owners"
+    t.string   "make"
+    t.string   "model"
+    t.integer  "price"
+    t.string   "broker"
   end
 
 end

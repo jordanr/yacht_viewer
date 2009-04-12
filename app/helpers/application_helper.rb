@@ -100,7 +100,8 @@ Year: #{vessel.year}<br/>
 Service: #{vessel.service}<br/>
 Location: #{location_count(vessel.location)}<br/>
 USCG ID: #{vessel.uscg_id}<br/>
-Date: #{vessel.updated_at}
+Date: #{vessel.updated_at}<br/>
+<a href=\"#{edit_vessel_path(vessel)}\">Edit</a>
 </div>
 "
   end
