@@ -1,6 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :advertisers
-
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes"
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
@@ -9,9 +7,18 @@ ActionController::Routing::Routes.draw do |map|
   # Sample of named route:
   #   map.purchase 'products/:id/purchase', :controller => 'catalog', :action => 'purchase'
   # This route can be invoked with purchase_url(:id => product.id)
-  map.about 'about', :controller => 'welcome', :action => 'about'
   map.random 'random', :controller => 'welcome', :action => 'random'
   map.search 'search', :controller => 'welcome', :action => 'search'
+  map.about 'about', :controller => 'welcome', :action => 'about'
+  map.advertisers 'advertisers', :controller => 'welcome', :action => 'advertisers'
+  map.buyers 'buyers', :controller => 'welcome', :action => 'buyers'
+  map.brokers 'brokers', :controller => 'welcome', :action => 'brokers'
+  map.owners 'owners', :controller => 'welcome', :action => 'owners'
+  map.researchers 'researchers', :controller => 'welcome', :action => 'researchers'
+
+  # authentication stuff
+#  map.signup  
+#  map.login
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   # Sample resource route with options:
@@ -29,7 +36,10 @@ ActionController::Routing::Routes.draw do |map|
   #     admin.resources :products
   #   end
   map.resources :vessels
-  map.resources :advertisers
+#  map.resources :advertisers
+#  map.resources :developers
+#  map.resources :users
+#  map.resources :sessions
   
   # Install the default routes as the lowest priority.
   # Note: These default routes make all actions in every controller accessible via GET requests. You should

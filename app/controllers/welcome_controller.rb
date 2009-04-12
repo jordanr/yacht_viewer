@@ -2,6 +2,26 @@ class WelcomeController < ApplicationController
   def index
   end
 
+  def researchers
+  end
+  def owners
+  end
+  def developers
+  end
+  def brokers
+  end
+  def buyers
+  end
+
+  def advertisers
+    marker = GMarker.new(ad_latlon, :title => ad_description, :info_window =>ad_long_description, :draggable=>true, :icon=>@icon)
+    @map.declare_init(marker, "ad_marker")
+    @map.overlay_init(marker)
+    @map.center_zoom_on_points_init(ad_latlon)
+    @map.record_init("GEvent.trigger(ad_marker,'click');")
+  end
+
+
   def about
     marker = GMarker.new(about_latlon, :title => about_description, :info_window =>about_long_description, :draggable=>true, :icon=>@icon)
     @map.declare_init(marker, "about_marker")
