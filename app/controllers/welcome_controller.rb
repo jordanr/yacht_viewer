@@ -25,7 +25,7 @@ class WelcomeController < ApplicationController
   end
 
   def search
-    redirect_to :action=>:index if ! params[:query] or params[:query].empty?
+    redirect_to :action=>:index and return if ! params[:query] or params[:query].empty?
 
     # search on multiple columns
     tokens = params[:query].split(" ")

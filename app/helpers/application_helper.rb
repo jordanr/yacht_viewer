@@ -62,6 +62,28 @@ Zip: 33004
   end  
 
 
+  ########
+  # Advertising
+  ########
+  def ad_latlon
+    [26.057923, -80.133152]
+  end
+
+  def ad_description
+    "Your Ad"
+  end
+
+  def ad_long_description
+    "<div style='text-align: left'>
+<b>Your Business</b><br/>
+Email: sales@your-business.com<br/>
+Phone: (555) 555-5555<br/>
+Address: Your Business' Address<br/>
+</div>
+"
+  end  
+
+
   #########
   # Vessel helpers
   ########
