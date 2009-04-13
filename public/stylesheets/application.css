@@ -72,3 +72,14 @@ td.ttl {
   padding-top: 10px;
   font-size: 24px;
 }
+
+/* SQL */
+
+.sql_table {
+  width: 100%;
+  text-align: center;
+}
+
+.spec_table td {
+  vertical-align: top;
+}

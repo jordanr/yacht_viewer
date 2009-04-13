@@ -2,7 +2,16 @@ class WelcomeController < ApplicationController
   def index
   end
 
+  def advanced_search
+    @results = @vessels = Sql.eval(params[:sql])
+    
+    return unless @results.first
+ 
+    # if the selected columns include...
+  end
+
   def researchers
+    @sql = Sql.new
   end
   def owners
   end

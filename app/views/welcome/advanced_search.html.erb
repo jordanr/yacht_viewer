@@ -1,0 +1,11 @@
+<ol>
+<% @results.each_with_index do |result, i| %>
+  <li>Result: <%= i %>
+    <ul>
+    <% result.attributes.each_pair do |key,value| %>
+      <li><label><b><%=key%></b>: <%= value %></li>
+    <% end %>
+    </ul>
+  </li>
+<% end %>
+</ol>

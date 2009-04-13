@@ -9,6 +9,8 @@ ActionController::Routing::Routes.draw do |map|
   # This route can be invoked with purchase_url(:id => product.id)
   map.random 'random', :controller => 'welcome', :action => 'random'
   map.search 'search', :controller => 'welcome', :action => 'search'
+  map.advanced_search 'advanced_search', :controller => 'welcome', :action => 'advanced_search'
+
   map.about 'about', :controller => 'welcome', :action => 'about'
   map.advertisers 'advertisers', :controller => 'welcome', :action => 'advertisers'
   map.buyers 'buyers', :controller => 'welcome', :action => 'buyers'

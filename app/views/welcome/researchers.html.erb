@@ -1,5 +1,39 @@
-<div class="about">
+<%= javascript_include_tag 'advanced_search' %>
 
+<% form_for @sql, :url=>advanced_search_path, :html=>{:method=>:get} do |f| -%>
+  <table class="sql_table">
+    <th>SELECT</th>
+    <th>FROM</th>
+    <th>WHERE</th>
+    <th>Group By</th>
+    <tr><td><%= f.select :select, ["*"] + Vessel.column_names, {}, :multiple=> true %></td>
+        <td>vessels</td>
+    	<td>
+   	  <div id="where_clause">
+
+	    <!-- Starter term for js terms -->
+            <div id="where_term" style="display: none">
+              <%= f.select :select, Vessel.column_names, {}, :id=>"where_column" %>
+	      <select id="where_operation">
+	        <%= options_for_select Sql.operations %>
+	      </select>
+ 	      <input type="text" id="where_value"/>
+ 	      <%= link_to_function "Remove", "remove_one(this.parentNode);" %>
+            </div>
+
+	  </div>
+	  <%= link_to_function "Add", "add_one();" %>
+	</td>
+
+    	<td><%= f.select :group_by, Vessel.column_names, {}, :multiple=>true %></td></tr>
+  </table>
+
+  <div style= "text-align: center"><%= f.submit "Go" %></div>
+
+<% end %>
+
+<div class="about">
+<h3>Examples</h3>
 <p>
 <%= application_name %> provides a wealth of vessel information.  It can provide answers to questions such as:
   <ul>
@@ -8,12 +42,12 @@
     <li>Are more vessels located in the north or south? East or west?</li>
     <li>What are the names and addresses of all the vessel owners in Fort Lauderdale, FL?
   </ul>
-Please see our examples section for more.
 </p>
 
 <h3>Get Started!</h3>
 <p>
-Do your own research by going to our advanced search page.
+Do your own research by using the advanced search form above.
 </p>
 
 </div>
+

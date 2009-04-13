@@ -2,7 +2,7 @@ require 'will_paginate'
 require 'yacht_bot'
 class Vessel < ActiveRecord::Base
   cattr_reader :per_page
-  @@per_page = 10
+  @@per_page = 20
 
   def to_s
     "#{name}: #{length} #{builder} #{year} #{owner_name}"
