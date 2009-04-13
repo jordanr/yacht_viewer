@@ -3,11 +3,10 @@ class WelcomeController < ApplicationController
   end
 
   def advanced_search
-    @results = @vessels = Sql.eval(params[:sql])
-    
-    return unless @results.first
- 
-    # if the selected columns include...
+    sql = Sql.eval(params[:sql])
+    @count = Vessel.find_by_sql(sql).size
+    @vessels =  Vessel.paginate_by_sql(sql, :page=>params[:page], :order=>'length DESC')
+    post_map
   end
 
   def researchers

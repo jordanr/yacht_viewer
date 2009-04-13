@@ -1,14 +1,9 @@
 <%= javascript_include_tag 'advanced_search' %>
 
+<h3>Advanced Search</h3>
 <% form_for @sql, :url=>advanced_search_path, :html=>{:method=>:get} do |f| -%>
   <table class="sql_table">
-    <th>SELECT</th>
-    <th>FROM</th>
-    <th>WHERE</th>
-    <th>Group By</th>
-    <tr><td><%= f.select :select, ["*"] + Vessel.column_names, {}, :multiple=> true %></td>
-        <td>vessels</td>
-    	<td>
+    <tr><td>
    	  <div id="where_clause">
 
 	    <!-- Starter term for js terms -->
@@ -23,9 +18,7 @@
 
 	  </div>
 	  <%= link_to_function "Add", "add_one();" %>
-	</td>
-
-    	<td><%= f.select :group_by, Vessel.column_names, {}, :multiple=>true %></td></tr>
+	</td></tr>
   </table>
 
   <div style= "text-align: center"><%= f.submit "Go" %></div>

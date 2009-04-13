@@ -1,11 +1,42 @@
-<ol>
-<% @results.each_with_index do |result, i| %>
-  <li>Result: <%= i %>
-    <ul>
-    <% result.attributes.each_pair do |key,value| %>
-      <li><label><b><%=key%></b>: <%= value %></li>
-    <% end %>
-    </ul>
-  </li>
+<% if @vessels.size != 0 %>
+<div class='main'> 
+    <%= @count %> results
+</div>
+   
+<div class='pagination'>
+  <%= will_paginate @vessels %>
+</div>
+
+<div class='main'>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Length</th>
+    <th>Builder</th>
+    <th>Year</th>
+    <th>Service</th>
+    <th>Location</th>
+    <th>USCG ID</th>
+  </tr>
+
+<% for listing in @vessels %>
+  <tr>
+    <td><%= link_to "<i>#{listing.name}</i>", vessel_path(listing) %></td>
+    <td><%=h listing.length %></td>
+    <td><%=h listing.builder %></td>
+    <td><%=h listing.year %></td>
+    <td><%=h listing.service %></td>
+    <td><%=h listing.location %></td>
+    <td><%=h listing.uscg_id %></td>
+  </tr>
 <% end %>
-</ol>
+</table>
+</div>
+
+<div class='pagination'>
+<%= will_paginate @vessels %>
+</div>
+
+<% else  # no results %>
+  <%= help %>
+<% end %>

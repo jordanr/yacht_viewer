@@ -8,16 +8,8 @@ class Sql
   def self.eval(query)
     sql = ""
     qmarks = []
-
-    query["select"] = ["*"] if not query["select"]
-    select_terms = query["select"].is_a?(Array) ? query["select"] :  [query["select"]]
-
-    if select_terms.all? { |term| (["*"] + Vessel.column_names).include?(term) }
-      sql = "SELECT #{select_terms.join(',')} FROM vessels "
-    else
-      raise Exception("invalid select term")
-    end
-
+    
+    sql = "SELECT * FROM vessels "
  
     if query["where"]
       sql += "WHERE "
@@ -39,20 +31,9 @@ class Sql
         qmarks += [term['value']]
         sql += " AND "
       end    
-      sql += "TRUE " # fencepost
+      sql += "TRUE" # fencepost
     end
 
-    if query["group_by"]
-      group_by_terms = query["group_by"].is_a?(Array) ? query["group_by"] : [query["group_by"]]
-      if group_by_terms.all? { |term| (Vessel.column_names).include?(term) }
-        sql += "GROUP BY #{group_by_terms.join(",")} "
-      else
-        raise Exception("invalid group by term")
-      end
-    end
-   
-    sql += "LIMIT 50"  
-
-    Vessel.find_by_sql([sql] + qmarks)
+    return [sql] + qmarks
   end
 end
