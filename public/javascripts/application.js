@@ -110,3 +110,53 @@ TextualZoomControl.prototype.setButtonStyle_ = function(button) {
   button.style.width = "6em";
   button.style.cursor = "pointer";
 }
+
+function byMarker(response) {
+  if (!response || response.Status.code != 200) {
+ //   alert("Status Code:" + response.Status.code);
+  } else {
+    place = response.Placemark[0];
+    updateAddress(place.address);
+    updateLatLng(new GLatLng(place.Point.coordinates[1], place.Point.coordinates[0]));
+  }
+}
+
+function byLatLng(response) {
+  if (!response || response.Status.code != 200) {
+ //   alert("Status Code:" + response.Status.code);
+  } else {
+    place = response.Placemark[0];
+    updateAddress(place.address);
+    updateLatLng(new GLatLng(place.Point.coordinates[1], place.Point.coordinates[0]));
+    updateMarker(new GLatLng(place.Point.coordinates[1], place.Point.coordinates[0]));
+  }
+}
+
+function byAddress(response) {
+  if (!response || response.Status.code != 200) {
+ //   alert("Status Code:" + response.Status.code);
+  } else {
+    place = response.Placemark[0];
+    updateLatLng(new GLatLng(place.Point.coordinates[1], place.Point.coordinates[0]));
+    updateMarker(new GLatLng(place.Point.coordinates[1], place.Point.coordinates[0]));
+  }
+}
+
+// Takes GLatLng object
+// and byWhatever
+function update(latlon_or_addr, cb) {
+  geocoder.getLocations(latlon_or_addr, cb);
+}
+
+
+/***** Private ******/
+function updateAddress(addr) {
+  document.getElementById('vessel_address').value = addr;
+}
+function updateMarker(latlon) {
+  vessel_marker.setLatLng(latlon);
+}
+function updateLatLng(latlon) {
+  document.getElementById('vessel_latitude').value = latlon.lat(); 
+  document.getElementById('vessel_longitude').value = latlon.lng();
+}

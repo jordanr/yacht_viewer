@@ -27,15 +27,18 @@ class VesselsController < ApplicationController
     latlon = vessel.latlon
     if latlon
       marker = GMarker.new(latlon, :title => description(vessel), :info_window =>long_description(vessel), :icon=>@icon, :draggable=>true)
-      @map.declare_init(marker, "vessel_marker")
-      @map.overlay_init(marker)
+
+      # globals
+      @map.declare_global_init(marker, "vessel_marker")
+      @map.record_global_init("var geocoder = new GClientGeocoder();")
+
+      # onload
       @map.center_zoom_on_points_init(latlon)
+      @map.overlay_init(marker)
       @map.record_init("GEvent.trigger(vessel_marker,'click');")
       @map.record_init("GEvent.addListener(vessel_marker, 'dragstart', function() { map.closeInfoWindow(); });")
-      @map.record_init("GEvent.addListener(vessel_marker, 'dragend', function() { var latlon = vessel_marker.getLatLng(); 
-										  document.getElementById('vessel_latitude').value = latlon.lat();
-										  document.getElementById('vessel_longitude').value = latlon.lng();
-										});")
+      @map.record_init("GEvent.addListener(vessel_marker, 'dragend', function() {  update(vessel_marker.getLatLng(), byMarker); });")
+      # show address defined in js file
     end
   end
   def update

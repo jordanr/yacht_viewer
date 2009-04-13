@@ -2,14 +2,18 @@
 <% form_for(@vessel) do |f| %>
   <%= f.error_messages %>
 
-  <h3>Location (Drag the map marker and place it on top your vessel.</h3>
+  <h3>Location(Drag the map marker and place it on top your vessel)</h3>
+  <p>
+    <%= f.label :address %><br />
+    <%= f.text_field :address, :onchange=>"update(this.value, byAddress);" %>
+  </p>
   <p>
     <%= f.label :latitude %><br />
-    <%= f.text_field :latitude %>
+    <%= f.text_field :latitude, :onchange=>"update(new GLatLng(this.value, document.getElementById('vessel_longitude').value), byLatLng);" %>
   </p>
   <p>
     <%= f.label :longitude %><br />
-    <%= f.text_field :longitude %>
+    <%= f.text_field :longitude, :onchange=>"update(new GLatLng(document.getElementById('vessel_latitude').value, this.value), byLatLng);" %>
   </p>
 
   <h3>Specification</h3>
