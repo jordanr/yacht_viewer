@@ -1,8 +1,8 @@
 <%= javascript_include_tag 'advanced_search' %>
 
-<h3>Advanced Search</h3>
 <% form_for @sql, :url=>advanced_search_path, :html=>{:method=>:get} do |f| -%>
   <table class="sql_table">
+    <tr><td><h3>Advanced Search</h3></td></tr>
     <tr><td>
    	  <div id="where_clause">
 
@@ -17,7 +17,7 @@
             </div>
 
 	  </div>
-	  <%= link_to_function "Add", "add_one();" %>
+	  <%= link_to_function "New", "add_one();" %>
 	</td></tr>
   </table>
 
